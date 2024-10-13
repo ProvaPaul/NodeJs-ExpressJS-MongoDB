@@ -1,4 +1,5 @@
-// for learning external module
+// for learning external module(website name: https://www.npmjs.com/package/movies-names)
+
 // 1.Now install a package for fruit-name
 //package.json file will be automatically added after running the command npm init into the terminal
 // package install er pore require korte hobe
