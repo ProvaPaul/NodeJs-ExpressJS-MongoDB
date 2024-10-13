@@ -59,10 +59,12 @@ const fs=require('fs');
 
 
 // 6.to check if a file exist or not
-fs.exists('newFile.txt',(result)=>{
-    if(result){
-        console.log('found');
-    }else{
-        console.log('not found');
-    }
-});
+// fs.exists('newFile.txt',(result)=>{
+//     if(result){
+//         console.log('found');
+//     }else{
+//         console.log('not found');
+//     }
+// });
+
+// for creating synchronous function we have to use like fs.writeFileSync
