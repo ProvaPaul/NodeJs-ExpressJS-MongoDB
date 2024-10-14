@@ -39,10 +39,20 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json());
 
-app.post("/user",(req,res)=>{
-    const name=req.body.name;
-    res.send(`welcome ${name}`);
-});
+// app.post("/user",(req,res)=>{
+//     const name=req.body.name;
+//     res.send(`welcome ${name}`);
+// });
+
+//*** */ 5.how to send and receive form data(create and write in index.html)
+app.get("/register",(req,res)=>{
+    res.sendfile(__dirname+'/index.html');
+})
+app.post("/register",(req,res)=>{
+    const fullname=req.body.fullname;
+    const age=req.body.age;
+    res.send(`Name: ${fullname} , Age:${age}`);
+})
 
 app.listen(port,()=>{
     console.log(`server is running at ${port}`);
