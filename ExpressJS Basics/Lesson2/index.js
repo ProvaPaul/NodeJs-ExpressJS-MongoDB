@@ -1,6 +1,8 @@
 const express=require('express');
 const app=express();
 const port=3001;
+// using postman we can practice this easily
+
 //1.using query parameter(?)
 // http://127.0.0.1:3001/?id=37&name=prova
 
@@ -23,11 +25,24 @@ const port=3001;
 
 //3.using headers
 // http://127.0.0.1:3001
-app.get("/",(req,res)=>{
-    const id=req.header('id');
-    const name=req.header('name');   
-    res.send(`<h1>student id is: ${id}, name: ${name}</h1>`)
-})
+// app.get("/",(req,res)=>{
+//     const id=req.header('id');
+//     const name=req.header('name');   
+//     res.send(`<h1>student id is: ${id}, name: ${name}</h1>`)
+// })
+
+// 4.post req from json
+// i. npm install body-parser
+const bodyParser=require('body-parser');
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+// parse application/json
+app.use(bodyParser.json());
+
+app.post("/user",(req,res)=>{
+    const name=req.body.name;
+    res.send(`welcome ${name}`);
+});
 
 app.listen(port,()=>{
     console.log(`server is running at ${port}`);
