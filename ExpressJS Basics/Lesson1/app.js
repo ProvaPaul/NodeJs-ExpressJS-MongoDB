@@ -39,8 +39,34 @@ const userRouter = require('./routes/users.route');
 
 // Use the imported routes
 app.use("/api/user", userRouter);
+
+app.get("/register",(req,res)=>{
+    //1.return json
+    // res.status(200).json({
+    //    message: "I am at register route!",
+    // statusCode: 200, 
+    // });
+
+    // 2.return redirect
+    // res.redirect("/login");
+
+    // 3.return html file as response
+    res.statusCode=200
+    res.sendFile(__dirname+"/views/register.html")
+})
+app.get("/login",(req,res)=>{
+    // using cookies
+    // res.cookie("name","putu");
+    // res.cookie("age","50");
+    res.clearCookie("age");
+    res.append("id","120000");
+    res.end()
+    // res.send("I am at login route");
+})
 app.get("/",(req,res)=>{
-    res.send("I am a get request at home route");
+    res.statusCode=200
+    res.sendFile(__dirname+"/views/index.html")
+    // res.send("I am a get request at home route");
 })
 // Default route to handle undefined routes (404)
 app.use((req, res) => {
