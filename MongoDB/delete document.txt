@@ -1,0 +1,2 @@
+usersdb> db.users.deleteOne({name:"prova paul"})
+{ acknowledged: true, deletedCount: 1 }

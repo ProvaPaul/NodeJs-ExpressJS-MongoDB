@@ -1,0 +1,60 @@
+usersdb> db.users.find()
+[
+  {
+    _id: ObjectId('6710a40faad165cac286b01d'),
+    name: 'prova paul',
+    age: 23,
+    language: [ 'bangla', 'hindi' ]
+  },
+  {
+    _id: ObjectId('6710a4dfaad165cac286b01e'),
+    name: 'putu putu',
+    age: 50,
+    language: [ 'bangla', 'hindi' ]
+  },
+  {
+    _id: ObjectId('6710a4dfaad165cac286b01f'),
+    name: 'kolpo putu',
+    age: 40,
+    language: [ 'bangla', 'english' ]
+  }
+]
+usersdb> db.users.find().pretty()
+[
+  {
+    _id: ObjectId('6710a40faad165cac286b01d'),
+    name: 'prova paul',
+    age: 23,
+    language: [ 'bangla', 'hindi' ]
+  },
+  {
+    _id: ObjectId('6710a4dfaad165cac286b01e'),
+    name: 'putu putu',
+    age: 50,
+    language: [ 'bangla', 'hindi' ]
+  },
+  {
+    _id: ObjectId('6710a4dfaad165cac286b01f'),
+    name: 'kolpo putu',
+    age: 40,
+    language: [ 'bangla', 'english' ]
+  }
+]
+usersdb> db.users.find({name:"putu putu"})
+[
+  {
+    _id: ObjectId('6710a4dfaad165cac286b01e'),
+    name: 'putu putu',
+    age: 50,
+    language: [ 'bangla', 'hindi' ]
+  }
+]
+usersdb> db.users.find({name:"putu putu"}).limit(1)
+[
+  {
+    _id: ObjectId('6710a4dfaad165cac286b01e'),
+    name: 'putu putu',
+    age: 50,
+    language: [ 'bangla', 'hindi' ]
+  }
+]
