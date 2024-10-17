@@ -1,5 +1,6 @@
 const express=require('express');
 const mongoose = require('mongoose');
+const { type } = require('os');
 
 const app=express();
 const port=3000;
@@ -10,6 +11,28 @@ const port=3000;
 // .catch((err)=>console.error('Could not connect to MongoDB',err));
 
 // 2.now connect by using async await function(it's better than the previous one because we cn call it from any where in the code)
+
+// id ,title,price,description,date
+// 1. create a schema
+const productSchema= new mongoose.Schema({
+    title:String,
+    // {
+    //     type:String,
+    //     required:true
+    //     // required true means it is mandatory to have a title
+    // },
+    price: Number,
+    description:String,
+    createdAt:{
+        type:Date,
+        default:Date.now
+    }
+})
+// 2. create a model
+const Product=mongoose.model('Products',productSchema);
+
+// 3. create a document
+// database->collection(table)->document(row)
 
 const connectDB = async()=>{
     try{
