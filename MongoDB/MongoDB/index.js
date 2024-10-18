@@ -127,7 +127,6 @@ app.get('/products',async(req,res)=>{
 // 1.get: products->Return all the products(done already above)
 // 3.post: /products->Create a new product(done above)
 
-//4. put: /products/:id->Update a specific product
 app.get('/products/:id',async(req,res)=>{
     try{
         const id=req.params.id;
@@ -175,8 +174,48 @@ app.get('/products/:id',async(req,res)=>{
     catch(err){
         res.status(400).send({message:err.message});
     }
-})
+});
+//4. put: /products/:id->Update a specific product
+
+app.put('/products/:id',async(req,res)=>{
+    try{
+        const id=req.params.id;
+        const title=req.body.title;
+        const price=req.body.price;
+        const description=req.body.description;
+
+        const updatedproduct=await Product.findByIdAndUpdate({_id:id},{
+            $set:{
+                title:req.body.title,
+                price:req.body.price,
+                description:req.body.description,
+            }
+        },
+        {
+            new:true
+        }
+    );
+        if(updatedproduct){
+            res.status(200).send({
+             success:true,
+             message:'updated single product',
+             data:updatedproduct
+            });
+        }
+        else{
+            res.status(404).send({
+            success: false,
+            message:'Product not found',
+        });      
+   }
+
+    }catch(err){
+        res.status(400).send({message:err.message});
+    }
+});
+                    
 app.listen(port,async()=>{
+
     console.log(`Server is running on port ${port}`);
     await connectDB()
 });
