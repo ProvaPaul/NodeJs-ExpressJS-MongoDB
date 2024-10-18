@@ -22,11 +22,21 @@ const productSchema= new mongoose.Schema({
     title:
     {
         type:String,
-        required:true
+        required:[true,'product title is required'],
+        minlength:[3,"product title must be at least 3 characters long"],
+        maxlength:[10,"product title must be at most 10 characters long"],
+        uppercase:true,
+        trim: true,
+        // enum:{
+        //     values:['BOOK','LAPTOP','MOBILE','TABLET','WATCH'],
+        //     message:'{VALUE} is not supported'
+        // }
         // required true means it is mandatory to have a title
     },
     price: {
         type:Number,
+        min:[20,"min price is 20"],
+        max:[2000,"max price is 2000"],
         required:true
     },
     description:{
