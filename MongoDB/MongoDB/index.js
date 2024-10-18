@@ -95,10 +95,13 @@ app.get('/products',async(req,res)=>{
             // Filter products where price is between minPrice and maxPrice
             products = await Product.find({
                 price: { $gt: minPrice, $lt: maxPrice }
-            });
+            // }).sort({ price: -1 });
+            // ascending order e korle 1, descending order e korle -1
+        }).sort({ price: -1 })
+
         } else {
             // If no price filter is applied, return all products
-            products = await Product.find();
+            products = await Product.find().sort({ price: -1 })
         }
         // eq,ne,neq,gt,gte,lt,lte,in,nin(find data using comparison query)
         // logical query: or,and,not
@@ -150,6 +153,29 @@ app.get('/products/:id',async(req,res)=>{
     }
 });
 // delete: /products/:id->Delete a specific product based on id
+    app.delete("/products/:id",async(req,res)=>{
+    try{
+        const id=req.params.id;
+        const productStatus=await Product.findByIdAndDelete({_id:id})
+        if(productStatus){
+            res.status(200).send({
+             success:true,
+             message:'deleted single product',
+             data:productStatus
+            });
+        }
+        else{
+            res.status(404).send({
+            success: false,
+            message:'Product not found',
+        });      
+   }
+
+    }
+    catch(err){
+        res.status(400).send({message:err.message});
+    }
+})
 app.listen(port,async()=>{
     console.log(`Server is running on port ${port}`);
     await connectDB()
