@@ -83,18 +83,26 @@ app.post('/products',async(req,res)=>{
 });
 
 // read all products// 2. get: /products/:id->Return a specific product
-
+// logical operator
+// 1. and operator
+// {$and:[{price:{$gt:100}},{price:{$lt:200}}]}
 app.get('/products',async(req,res)=>{
     try{
-        const price=req.query.price;
+        const { minPrice, maxPrice } = req.query; // Get min and max prices from query parameters
         let products;
-        if(price){
-           products=await Product.find({price: { $gt: price }});
-        }
-        else{
-             products=await Product.find()
+
+        if (minPrice && maxPrice) {
+            // Filter products where price is between minPrice and maxPrice
+            products = await Product.find({
+                price: { $gt: minPrice, $lt: maxPrice }
+            });
+        } else {
+            // If no price filter is applied, return all products
+            products = await Product.find();
         }
         // eq,ne,neq,gt,gte,lt,lte,in,nin(find data using comparison query)
+        // logical query: or,and,not
+
         if(products){
             res.status(200).send({
              success:true,
