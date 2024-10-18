@@ -18,36 +18,53 @@ app.use(express.urlencoded({extended:true}));
 
 // id ,title,price,description,date
 // 1. create a schema
-const productSchema= new mongoose.Schema({
-    title:
-    {
-        type:String,
-        required:[true,'product title is required'],
-        minlength:[3,"product title must be at least 3 characters long"],
-        maxlength:[10,"product title must be at most 10 characters long"],
-        uppercase:true,
+const productSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        required: [true, 'Product title is required'],
+        minlength: [3, "Product title must be at least 3 characters long"],
+        maxlength: [10, "Product title must be at most 10 characters long"], // Fixed string completion
+        uppercase: true,
         trim: true,
-        // enum:{
-        //     values:['BOOK','LAPTOP','MOBILE','TABLET','WATCH'],
-        //     message:'{VALUE} is not supported'
+        // Uncomment and customize the enum if needed
+        // enum: {
+        //     values: ['BOOK', 'LAPTOP', 'MOBILE', 'TABLET', 'WATCH'],
+        //     message: '{VALUE} is not supported'
         // }
-        // required true means it is mandatory to have a title
     },
     price: {
-        type:Number,
-        min:[20,"min price is 20"],
-        max:[2000,"max price is 2000"],
-        required:true
+        type: Number,
+        min: [20, "Min price is 20"],
+        max: [2000, "Max price is 2000"],
+        required: true,
+        // Uncomment if you want to add custom validation
+        // validate: {
+        //     validator: function(value) {
+        //         return value.length === 10;
+        //     },
+        //     message: (props) => `${props.value} is not a valid price`,
+        // }
     },
-    description:{
-        type:String,
-        required:true
+    phone: {
+        type: String,
+        required: true,
+        validate: {
+            validator: function(value) {
+                return /\d{3}-\d{3}-\d{4}/.test(value); // Validates phone number in the format XXX-XXX-XXXX
+            },
+            message: (props) => `${props.value} is not a valid phone number`,
+        }
     },
-    createdAt:{
-        type:Date,
-        default:Date.now
+    description: {
+        type: String,
+        required: true
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
     }
-})
+});
+
 // 2. create a model
 const Product=mongoose.model('Products',productSchema);
 
@@ -80,7 +97,8 @@ app.post('/products',async(req,res)=>{
         const newProduct=new Product({
             title:req.body.title,
             price:req.body.price,
-            description:req.body.description
+            description:req.body.description,
+            phone:req.body.phone
         });
         // for storing data in database
         const productData=await newProduct.save();
