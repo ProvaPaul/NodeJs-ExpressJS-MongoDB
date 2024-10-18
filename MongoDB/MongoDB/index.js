@@ -58,6 +58,7 @@ const connectDB = async()=>{
 app.get('/',(req,res)=>{    
     res.send('Hello World');
 });
+// CRUD-Create,Read,Update,Delete   
 // create a route
 app.post('/products',async(req,res)=>{    
     try{
@@ -81,6 +82,58 @@ app.post('/products',async(req,res)=>{
     }
 });
 
+// read all products// 2. get: /products/:id->Return a specific product
+
+app.get('/products',async(req,res)=>{
+    try{
+        const products=await Product.find();
+        if(products){
+            res.status(200).send({
+             success:true,
+             message:'return all product',
+             data:products
+            });
+        }
+        else{
+        res.status(404).send({
+         success: false,
+         message:'Product not found',
+        });      
+   }
+    }
+    catch(err){
+        res.status(400).send({message:err.message});
+    }
+});
+// 1.get: products->Return all the products(done already above)
+// 3.post: /products->Create a new product(done above)
+
+//4. put: /products/:id->Update a specific product
+app.get('/products/:id',async(req,res)=>{
+    try{
+        const id=req.params.id;
+        const products=await Product.findOne({_id:id});
+        // emon id khujbe jeta db er shathe match korbe
+        // find array return kore[{},{},{}]
+        // findone object return kore{}
+        if(products){
+                   res.status(200).send({
+                    success:true,
+                    message:'return single product',
+                    data:products
+                   });
+        }else{
+            res.status(404).send({
+                success: false,
+                message:'Product not found',
+               });      
+          }
+    }
+    catch(err){
+        res.status(400).send({message:err.message});
+    }
+});
+// delete: /products/:id->Delete a specific product based on id
 app.listen(port,async()=>{
     console.log(`Server is running on port ${port}`);
     await connectDB()
